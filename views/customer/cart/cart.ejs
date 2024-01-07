@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <%- include('../partials/header') %>
+  <title>Cart</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .cart-container {
+      
+      margin: 80px auto 0;
+    }
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    .cart-table th,
+    .cart-table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    .product-image {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    .update-button,
+    .delete-button,
+    .checkout-button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 5px;
+    }
+    .total-section {
+      text-align: right;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/nav') %>
+  <div class="cart-container container">
+    <center>
+      <h1>Cart</h1>
+    </center>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table data-table"
+      >
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cart.forEach(item => { %>
+          <tr>
+            <td><img src="<%= item.menu_image %>" width="100"></td>
+            <td><%= item.menu_title %></td>
+            <td>$<%= item.menu_price %></td>
+            <td><%= item.quantity %></td>
+            <td>$<%= item.total_price %></td>
+            <td>
+              <button class="btn btn-success">Update</button>
+              <button class="btn btn-danger">Delete</button>
+            </td>
+          </tr>
+          <!-- Add hidden inputs for menu_id, assuming menu_id is a property of each item -->
+          <input type="hidden" name="menu_id[]" value="<%= item.menu_id %>">
+        <% }); %>
+      </tbody>
+      </table>
+    </div>
+    
+      <div class="total-section">
+        <% const totalAmount = cart.reduce((sum, item) => sum + item.total_price, 0) %>
+        <p>Total Amount: Php <%= totalAmount.toFixed(2) %></p>
+        <!-- Add the following form to submit the cart items for checkout -->
+        <form action="/customer/checkout" method="post" id="checkoutForm">
+          <% cart.forEach(item => { %>
+            <input type="hidden" name="menu_id[]" value="<%= item.menu_id %>">
+            <input type="hidden" name="quantity[]" value="<%= item.quantity %>">
+            <input type="hidden" name="total_price[]" value="<%= item.total_price %>">
+          <% }); %>
+          <!-- Add this hidden input field to include the cart data -->
+          <input type="hidden" name="cart" value="<%= JSON.stringify(cart) %>">
+          <input type="hidden" name="status" value="Pending">
+          <button type="submit" class="checkout-button">Checkout</button>
+        </form>
+        
+        <script>
+          document.getElementById('checkoutForm').addEventListener('submit', function () {
+            alert('Checkout successful! Redirecting to orders page.');
+            window.location.href = '/customer/orders';
+          });
+        </script>
+      </div>
+    </div>
+  <%- include('../partials/footer') %>
+</body>
+</html>
