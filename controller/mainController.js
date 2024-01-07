@@ -314,24 +314,6 @@ exports.getCart = (req, res) => {
 };
 
 
-exports.getOrders = (req, res) => {
-  const userId = req.session.user.user_id;
-  const sql = `
-    SELECT orders.ord_id, orders.user_id, orders.menu_id, orders.quantity, orders.total_amount, orders.ord_date, menu.menu_title, menu.menu_image 
-    FROM orders 
-    JOIN menu ON orders.menu_id = menu.menu_id 
-    WHERE orders.user_id = ?`;
-
-  con.query(sql, [userId], (err, orders) => {
-    if (err) {
-      console.error('Error querying orders:', err);
-      return res.status(500).send('Internal Server Error');
-    }
-
-    res.render('customer/orders/orders', { orders });
-  });
-};
-
 exports.getOrderHistory = (req,res)=>{
   res.render('customer/order_history/order_history'); 
 }
@@ -443,6 +425,20 @@ exports.checkout = (req, res) => {
   });
 
   // Optionally, you can redirect the user or render a confirmation page after processing the orders
+};
+
+exports.deleteCartItem = (req, res) => {
+  const cartItemId = req.params.id;
+  const deleteQuery = 'DELETE FROM cart WHERE cart_id = ?';
+  
+  con.query(deleteQuery, [cartItemId], (err, result) => {
+    if (err) {
+      console.error('Error deleting cart item:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    req.flash('success', 'Cart item successfully deleted.');
+    res.redirect('/customer/cart'); // Redirect back to the cart page or wherever needed
+  });
 };
 
 //logout

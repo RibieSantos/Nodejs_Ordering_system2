@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <%- include('../partials/header') %>
   <title>Cart</title>
+  
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -14,7 +15,7 @@
       box-sizing: border-box;
     }
     .cart-container {
-      
+      max-width: 800px;
       margin: 80px auto 0;
     }
     .cart-table {
@@ -53,16 +54,14 @@
 </head>
 <body>
   <%- include('../partials/nav') %>
-  <div class="cart-container container">
+
+  <div class="cart-container">
     <center>
       <h1>Cart</h1>
     </center>
-    <div
-      class="table-responsive"
-    >
-      <table
-        class="table data-table"
-      >
+
+    <table class="cart-table">
+    <table class="cart-table">
       <thead>
         <tr>
           <th>Image</th>
@@ -76,47 +75,42 @@
       <tbody>
         <% cart.forEach(item => { %>
           <tr>
-            <td><img src="<%= item.menu_image %>" width="100"></td>
-            <td><%= item.menu_title %></td>
-            <td>$<%= item.menu_price %></td>
-            <td><%= item.quantity %></td>
-            <td>$<%= item.total_price %></td>
             <td>
-              <button class="btn btn-success">Update</button>
-              <button class="btn btn-danger">Delete</button>
+              <!-- Assuming you have an image URL for the product -->
+              <img src="<%= item.image_url %>" alt="<%= item.product_name %>" class="product-image">
+            </td>
+            <td><%= item.menu_title %></td>
+            <td><%= item.menu_price %></td>
+            <td><%= item.quantity %></td>
+            <td><%= item.total_price %></td>
+            <td>
+              <form action="/deleteCartItem/<%= item.cart_id %>" method="post">
+                <button type="submit" class="delete-button">Delete</button>
+              </form>
             </td>
           </tr>
-          <!-- Add hidden inputs for menu_id, assuming menu_id is a property of each item -->
-          <input type="hidden" name="menu_id[]" value="<%= item.menu_id %>">
         <% }); %>
       </tbody>
-      </table>
-    </div>
-    
+    </table>
+
       <div class="total-section">
         <% const totalAmount = cart.reduce((sum, item) => sum + item.total_price, 0) %>
         <p>Total Amount: Php <%= totalAmount.toFixed(2) %></p>
         <!-- Add the following form to submit the cart items for checkout -->
-        <form action="/customer/checkout" method="post" id="checkoutForm">
+        <form action="/customer/checkout" method="post">
           <% cart.forEach(item => { %>
-            <input type="hidden" name="menu_id[]" value="<%= item.menu_id %>">
-            <input type="hidden" name="quantity[]" value="<%= item.quantity %>">
-            <input type="hidden" name="total_price[]" value="<%= item.total_price %>">
+            <input type="hidden" name="cart[]" value='<%= JSON.stringify(item) %>'>
+            <input type="hidden" name="menu_title[]" value='<%= item.menu_title %>'>
+            <input type="hidden" name="menu_id[]" value='<%= item.menu_id %>'>
+            <input type="hidden" name="menu_price[]" value='<%= item.menu_price %>'>
           <% }); %>
-          <!-- Add this hidden input field to include the cart data -->
-          <input type="hidden" name="cart" value="<%= JSON.stringify(cart) %>">
-          <input type="hidden" name="status" value="Pending">
           <button type="submit" class="checkout-button">Checkout</button>
         </form>
         
-        <script>
-          document.getElementById('checkoutForm').addEventListener('submit', function () {
-            alert('Checkout successful! Redirecting to orders page.');
-            window.location.href = '/customer/orders';
-          });
-        </script>
       </div>
     </div>
+
+
   <%- include('../partials/footer') %>
 </body>
 </html>
