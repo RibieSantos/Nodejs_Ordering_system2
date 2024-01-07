@@ -242,6 +242,38 @@ exports.statusUpdate = (req, res) => {
 };
 
 
+exports.getProfile = (req, res) => {
+  // Assuming 'req.session.user' contains the logged-in user's id
+  const userId = req.session.user.id; 
+  const query = "SELECT fullname, gender, contact, birthdate, address, email FROM users WHERE id = ?";
+  
+  con.query(query, [userId], (err, result) => {
+    if (err) {
+      // handle error
+      res.send("Error fetching profile");
+    } else {
+      // render profile page with user's data
+      res.render("admin/profile/profile", { user: result[0] });
+    }
+  });
+};
+
+exports.custProfile = (req, res) => {
+  // Assuming 'req.session.user' contains the logged-in user's id
+  const userId = req.session.user.id; 
+  const query = "SELECT fullname, gender, contact, birthdate, address, email FROM users WHERE id = ?";
+  
+  con.query(query, [userId], (err, result) => {
+    if (err) {
+      // handle error
+      res.send("Error fetching profile");
+    } else {
+      // render profile page with user's data
+      res.render("customer/profile/profile", { user: result[0] });
+    }
+  });
+};
+
 
 
 
@@ -282,6 +314,7 @@ exports.getCart = (req, res) => {
 };
 
 
+<<<<<<< HEAD
 exports.getOrders = (req, res) => {
   const userId = req.session.user.id;
   console.log(userId);
@@ -298,6 +331,8 @@ exports.getOrders = (req, res) => {
   });
 };
 
+=======
+>>>>>>> 80b3c8c5cd2ca994fb477ce6dcfd6e5133e73ee8
 exports.getOrderHistory = (req,res)=>{
   res.render('customer/order_history/order_history'); 
 }
@@ -414,6 +449,22 @@ exports.checkout = (req, res) => {
   // Optionally, you can redirect the user or render a confirmation page after processing the orders
 };
 
+<<<<<<< HEAD
+=======
+exports.deleteCartItem = (req, res) => {
+  const cartItemId = req.params.id;
+  const deleteQuery = 'DELETE FROM cart WHERE cart_id = ?';
+  
+  con.query(deleteQuery, [cartItemId], (err, result) => {
+    if (err) {
+      console.error('Error deleting cart item:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    req.flash('success', 'Cart item successfully deleted.');
+    res.redirect('/customer/cart'); // Redirect back to the cart page or wherever needed
+  });
+};
+>>>>>>> 80b3c8c5cd2ca994fb477ce6dcfd6e5133e73ee8
 
 //logout
 exports.logout = (req, res) => {

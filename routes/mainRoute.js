@@ -21,6 +21,13 @@ router.get('/logout', authController.logout);
 router.get('/home', mainCon.isAuthenticated, mainCon.getHome);
 router.get('/admin/dashboard', mainCon.isAuthenticated, mainCon.getDash);
 //Admin Side
+
+// Profile Route
+router.get('/admin/profile', mainCon.isAuthenticated, mainCon.getProfile);
+// Profile Route
+router.get('/customer/profile', mainCon.isAuthenticated, mainCon.custProfile);
+
+
 //Menu
 router.get('/admin/menu',mainCon.isAuthenticated,mainCon.getMenu);
 router.get('/admin/addMenu',mainCon.isAuthenticated,mainCon.getAddMenu);
@@ -49,7 +56,6 @@ router.post('/admin/updateStatus/:id',mainCon.isAuthenticated,mainCon.statusUpda
 //Customer Side
 // Update the route to call the getCart function
 router.get('/customer/cart', mainCon.isAuthenticated, mainCon.getCart);
-router.get('/customer/orders',mainCon.isAuthenticated,mainCon.getOrders);
 router.get('/customer/order_history',mainCon.isAuthenticated,mainCon.getOrderHistory);
 router.get('/customer/dashboard', mainCon.isAuthenticated, mainCon.getMenuForCustomer);
 // Add the following route to handle adding items to the cart
@@ -57,6 +63,11 @@ router.post('/addToCart', mainCon.isAuthenticated, mainCon.addToCart);
 // Add the following route to handle checkout
 router.post('/customer/checkout', mainCon.isAuthenticated, mainCon.checkout);
 
+<<<<<<< HEAD
+=======
+//Delete Cart
+router.post('/deleteCartItem/:id', mainCon.isAuthenticated, mainCon.deleteCartItem);
+>>>>>>> 80b3c8c5cd2ca994fb477ce6dcfd6e5133e73ee8
 
 // Welcome Route
 router.get('/',mainCon.getIndex);
