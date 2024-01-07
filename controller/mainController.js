@@ -242,6 +242,38 @@ exports.statusUpdate = (req, res) => {
 };
 
 
+exports.getProfile = (req, res) => {
+  // Assuming 'req.session.user' contains the logged-in user's id
+  const userId = req.session.user.id; 
+  const query = "SELECT fullname, gender, contact, birthdate, address, email FROM users WHERE id = ?";
+  
+  con.query(query, [userId], (err, result) => {
+    if (err) {
+      // handle error
+      res.send("Error fetching profile");
+    } else {
+      // render profile page with user's data
+      res.render("admin/profile/profile", { user: result[0] });
+    }
+  });
+};
+
+exports.custProfile = (req, res) => {
+  // Assuming 'req.session.user' contains the logged-in user's id
+  const userId = req.session.user.id; 
+  const query = "SELECT fullname, gender, contact, birthdate, address, email FROM users WHERE id = ?";
+  
+  con.query(query, [userId], (err, result) => {
+    if (err) {
+      // handle error
+      res.send("Error fetching profile");
+    } else {
+      // render profile page with user's data
+      res.render("customer/profile/profile", { user: result[0] });
+    }
+  });
+};
+
 
 
 

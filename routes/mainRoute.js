@@ -21,6 +21,13 @@ router.get('/logout', authController.logout);
 router.get('/home', mainCon.isAuthenticated, mainCon.getHome);
 router.get('/admin/dashboard', mainCon.isAuthenticated, mainCon.getDash);
 //Admin Side
+
+// Profile Route
+router.get('/admin/profile', mainCon.isAuthenticated, mainCon.getProfile);
+// Profile Route
+router.get('/customer/profile', mainCon.isAuthenticated, mainCon.custProfile);
+
+
 //Menu
 router.get('/admin/menu',mainCon.isAuthenticated,mainCon.getMenu);
 router.get('/admin/addMenu',mainCon.isAuthenticated,mainCon.getAddMenu);
