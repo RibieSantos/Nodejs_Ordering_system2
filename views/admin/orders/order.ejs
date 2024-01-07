@@ -57,10 +57,10 @@
                                                 <%= order.quantity %>
                                             </td>
                                             <td>
-                                                <%= order.total_amount %>
+                                                <%= order.total_price %>
                                             </td>
                                             <td>
-                                                <% if (order.order_status=='pending' ) { %>
+                                                <% if (order.order_status=='Pending' ) { %>
                                                     <a href="/admin/updateStatus/<%= order.ord_id %>"
                                                         class="btn btn-secondary fw-bold" data-bs-toggle="modal"
                                                         data-bs-target="#modalId<%= order.ord_id %>">
@@ -72,13 +72,13 @@
                                                             data-bs-target="#modalId<%= order.ord_id %>">
                                                             <%= order.order_status %>
                                                         </a>
-                                                        <% } else if (order.order_status=='To process' ) { %>
+                                                        <% } else if (order.order_status=='To Process' ) { %>
                                                             <a href="/admin/updateStatus/<%= order.ord_id %>"
                                                                 class="btn btn-warning fw-bold" data-bs-toggle="modal"
                                                                 data-bs-target="#modalId<%= order.ord_id %>">
                                                                 <%= order.order_status %>
                                                             </a>
-                                                            <% } else if (order.order_status=='To be Delivered' ) { %>
+                                                            <% } else if (order.order_status=='To Be Delivered' ) { %>
                                                                 <a href="/admin/updateStatus/<%= order.ord_id %>"
                                                                     class="btn btn-primary fw-bold" data-bs-toggle="modal"
                                                                     data-bs-target="#modalId<%= order.ord_id %>">

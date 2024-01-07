@@ -215,7 +215,7 @@ exports.getCustomerTable = (req,res)=>{
 // Orders
 exports.getAdminOrders = (req, res) => {
   const sql =
-    "SELECT u.fullname, u.address, u.contact, m.menu_title, m.menu_price,o.ord_id, o.quantity, o.total_amount, o.order_status FROM menu AS m JOIN orders AS o ON m.menu_id = o.menu_id JOIN users AS u ON u.id = o.user_id";
+    "SELECT u.fullname, u.address, u.contact, m.menu_title, m.menu_price,o.ord_id, o.quantity, o.total_price, o.order_status FROM menu AS m JOIN orders AS o ON m.menu_id = o.menu_id JOIN users AS u ON u.id = o.id";
   con.query(sql, [], (err, results) => {
     if (err) {
       console.error(err);
@@ -283,19 +283,17 @@ exports.getCart = (req, res) => {
 
 
 exports.getOrders = (req, res) => {
-  const userId = req.session.user.user_id;
+  const userId = req.session.user.id;
+  console.log(userId);
   const sql = `
-    SELECT orders.ord_id, orders.user_id, orders.menu_id, orders.quantity, orders.total_amount, orders.ord_date, menu.menu_title, menu.menu_image 
-    FROM orders 
-    JOIN menu ON orders.menu_id = menu.menu_id 
-    WHERE orders.user_id = ?`;
+    SELECT orders.ord_id, orders.quantity, orders.total_price, orders.ord_date, menu.menu_title, menu.menu_image, orders.order_status FROM orders INNER JOIN menu ON orders.menu_id = menu.menu_id WHERE orders.id = ?`;
 
   con.query(sql, [userId], (err, orders) => {
     if (err) {
       console.error('Error querying orders:', err);
       return res.status(500).send('Internal Server Error');
     }
-
+    console.log(orders);
     res.render('customer/orders/orders', { orders });
   });
 };
@@ -303,6 +301,7 @@ exports.getOrders = (req, res) => {
 exports.getOrderHistory = (req,res)=>{
   res.render('customer/order_history/order_history'); 
 }
+
 exports.getMenuForCustomer = (req, res) => {
   const sql = "SELECT menu_id, menu_title, menu_desc, menu_price, menu_image FROM menu";
   con.query(sql, [], (err, results) => {
@@ -344,6 +343,8 @@ exports.addToCart = (req, res) => {
     });
   });
 };
+
+
 // Checkout Button
 exports.checkout = (req, res) => {
   const userId = req.session.user.id;
@@ -413,6 +414,7 @@ exports.checkout = (req, res) => {
   // Optionally, you can redirect the user or render a confirmation page after processing the orders
 };
 
+
 //logout
 exports.logout = (req, res) => {
   req.session.destroy((err) => {
@@ -422,6 +424,8 @@ exports.logout = (req, res) => {
     res.redirect('/');
   });
 };
+
+
 //customer history
 exports.getOrderHistory = (req, res) => {
   const userId = req.session.user.user_id;

@@ -43,6 +43,9 @@ router.get('/admin/order',mainCon.isAuthenticated,mainCon.getAdminOrders);
 router.post('/admin/updateStatus/:id',mainCon.isAuthenticated,mainCon.statusUpdate);
 // Report Generation
 
+
+
+
 //Customer Side
 // Update the route to call the getCart function
 router.get('/customer/cart', mainCon.isAuthenticated, mainCon.getCart);
@@ -53,6 +56,7 @@ router.get('/customer/dashboard', mainCon.isAuthenticated, mainCon.getMenuForCus
 router.post('/addToCart', mainCon.isAuthenticated, mainCon.addToCart);
 // Add the following route to handle checkout
 router.post('/customer/checkout', mainCon.isAuthenticated, mainCon.checkout);
+
 
 // Welcome Route
 router.get('/',mainCon.getIndex);
