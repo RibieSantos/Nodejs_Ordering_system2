@@ -62,12 +62,10 @@ router.get('/customer/dashboard', mainCon.isAuthenticated, mainCon.getMenuForCus
 router.post('/addToCart', mainCon.isAuthenticated, mainCon.addToCart);
 // Add the following route to handle checkout
 router.post('/customer/checkout', mainCon.isAuthenticated, mainCon.checkout);
+router.get('/customer/orders', mainCon.isAuthenticated, mainCon.getOrders);
 
-<<<<<<< HEAD
-=======
 //Delete Cart
 router.post('/deleteCartItem/:id', mainCon.isAuthenticated, mainCon.deleteCartItem);
->>>>>>> 80b3c8c5cd2ca994fb477ce6dcfd6e5133e73ee8
 
 // Welcome Route
 router.get('/',mainCon.getIndex);

@@ -314,7 +314,6 @@ exports.getCart = (req, res) => {
 };
 
 
-<<<<<<< HEAD
 exports.getOrders = (req, res) => {
   const userId = req.session.user.id;
   console.log(userId);
@@ -331,8 +330,6 @@ exports.getOrders = (req, res) => {
   });
 };
 
-=======
->>>>>>> 80b3c8c5cd2ca994fb477ce6dcfd6e5133e73ee8
 exports.getOrderHistory = (req,res)=>{
   res.render('customer/order_history/order_history'); 
 }
@@ -449,8 +446,6 @@ exports.checkout = (req, res) => {
   // Optionally, you can redirect the user or render a confirmation page after processing the orders
 };
 
-<<<<<<< HEAD
-=======
 exports.deleteCartItem = (req, res) => {
   const cartItemId = req.params.id;
   const deleteQuery = 'DELETE FROM cart WHERE cart_id = ?';
@@ -464,7 +459,6 @@ exports.deleteCartItem = (req, res) => {
     res.redirect('/customer/cart'); // Redirect back to the cart page or wherever needed
   });
 };
->>>>>>> 80b3c8c5cd2ca994fb477ce6dcfd6e5133e73ee8
 
 //logout
 exports.logout = (req, res) => {
