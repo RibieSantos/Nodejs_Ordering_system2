@@ -410,7 +410,7 @@ exports.checkout = (req, res) => {
         return res.status(400).send('Invalid menu ID');
       }
 
-      const insertOrderQuery = 'INSERT INTO orders (id, menu_id, menu_title, menu_price, quantity, total_price, ord_date) VALUES (?, ?, ?, ?, ?, ?, NOW())';
+      const insertOrderQuery = 'INSERT INTO orders (id, menu_id, menu_title, menu_price, quantity, total_price, ord_date,order_status) VALUES (?, ?, ?, ?, ?, ?, NOW(),"Pending")';
       con.query(insertOrderQuery, [userId, menuId, menuTitle, menuPrice, quantity, total_price], (err, result) => {
         if (err) {
           console.error('Error placing order:', err);
